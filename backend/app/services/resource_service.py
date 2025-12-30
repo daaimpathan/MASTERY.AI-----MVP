@@ -32,8 +32,8 @@ class ResourceService:
         Teachers: classes they teach
         Students: classes they're enrolled in
         """
-        is_teacher = user.role == UserRole.TEACHER or str(user.role) == "teacher"
-        is_student = user.role == UserRole.STUDENT or str(user.role) == "student"
+        is_teacher = user.role == UserRole.TEACHER or str(user.role).lower() == "teacher" or str(user.role) == "UserRole.TEACHER"
+        is_student = user.role == UserRole.STUDENT or str(user.role).lower() == "student" or str(user.role) == "UserRole.STUDENT"
         
         if is_teacher:
             classes = db.query(Class).filter(Class.teacher_id == user.id).all()
@@ -171,7 +171,8 @@ class ResourceService:
         print(f"[DELETE] Resource found. Owner: {resource.teacher_id}, Requester: {teacher.id}")
         
         # Verify teacher owns this resource or is admin
-        if resource.teacher_id != teacher.id and teacher.role != UserRole.ADMIN:
+        is_admin = teacher.role == UserRole.ADMIN or str(teacher.role).lower() == "admin" or str(teacher.role) == "UserRole.ADMIN"
+        if resource.teacher_id != teacher.id and not is_admin:
             print(f"[DELETE] Permission denied. Resource owner: {resource.teacher_id}, Requester: {teacher.id}, Role: {teacher.role}")
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
@@ -267,8 +268,8 @@ class ResourceService:
     @staticmethod
     def get_requests(db: Session, user: User) -> List[ResourceRequest]:
         """Get resource requests based on user role."""
-        is_teacher = user.role == UserRole.TEACHER or str(user.role) == "teacher"
-        is_student = user.role == UserRole.STUDENT or str(user.role) == "student"
+        is_teacher = user.role == UserRole.TEACHER or str(user.role).lower() == "teacher" or str(user.role) == "UserRole.TEACHER"
+        is_student = user.role == UserRole.STUDENT or str(user.role).lower() == "student" or str(user.role) == "UserRole.STUDENT"
 
         if is_student:
             # Students see only their own requests
@@ -303,7 +304,7 @@ class ResourceService:
             )
         
         # Verify teacher has access to this class
-        is_teacher = str(teacher.role) == "teacher" or teacher.role == UserRole.TEACHER
+        is_teacher = teacher.role == UserRole.TEACHER or str(teacher.role).lower() == "teacher" or str(teacher.role) == "UserRole.TEACHER"
         
         if not is_teacher:
             print(f"DEBUG: User {teacher.id} is not a teacher (role: {teacher.role})")
@@ -363,7 +364,7 @@ class ResourceService:
             )
         
         # Verify teacher has access to this class
-        is_teacher = str(teacher.role) == "teacher" or teacher.role == UserRole.TEACHER
+        is_teacher = teacher.role == UserRole.TEACHER or str(teacher.role).lower() == "teacher" or str(teacher.role) == "UserRole.TEACHER"
         
         if not is_teacher:
             raise HTTPException(
