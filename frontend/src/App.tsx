@@ -86,31 +86,30 @@ function App() {
                                     user?.role === 'admin' ? <AdminDashboard /> : <Navigate to="/login" />
                         } />
 
-                        <Route path="projects" element={<ProjectList />} />
-                        <Route path="projects/:id" element={<ProjectDetails />} />
-                        <Route path="projects/:id/submissions" element={<ProjectSubmissions />} />
-                        <Route path="projects/evaluate/:submissionId" element={<ProjectEvaluation />} />
-                        <Route path="projects/create" element={<CreateProject />} />
-                        <Route path="engagement" element={<ClassEngagement />} />
-                        <Route path="mastery" element={<AdaptivePractice />} />
-                        <Route path="interventions" element={<Interventions />} />
-                        <Route path="resources" element={<Resources />} />
-                        <Route path="quiz/join" element={<StudentJoin />} />
-                        <Route path="quiz/host" element={<QuizLobby />} />
-                        <Route path="quiz/session/:id" element={<ActiveQuizSession />} />
-                        <Route path="assignments/create" element={<CreateAssignment />} />
-                        <Route path="assignments/review" element={<HomeworkReview />} />
-                        <Route path="assignments/grade/:submissionId" element={<GradingView />} />
-                        <Route path="attendance" element={<TeacherAttendance />} />
-                        <Route path="my-attendance" element={<StudentAttendance />} />
-                        <Route path="my-attendance" element={<StudentAttendance />} />
-                        <Route path="polls" element={<TeacherPoll />} />
+                        <Route path="projects" element={<ProtectedRoute roles={['teacher']}><ProjectList /></ProtectedRoute>} />
+                        <Route path="projects/:id" element={<ProtectedRoute roles={['teacher']}><ProjectDetails /></ProtectedRoute>} />
+                        <Route path="projects/:id/submissions" element={<ProtectedRoute roles={['teacher']}><ProjectSubmissions /></ProtectedRoute>} />
+                        <Route path="projects/evaluate/:submissionId" element={<ProtectedRoute roles={['teacher']}><ProjectEvaluation /></ProtectedRoute>} />
+                        <Route path="projects/create" element={<ProtectedRoute roles={['teacher']}><CreateProject /></ProtectedRoute>} />
+                        <Route path="engagement" element={<ProtectedRoute roles={['teacher']}><ClassEngagement /></ProtectedRoute>} />
+                        <Route path="mastery" element={<ProtectedRoute roles={['teacher']}><AdaptivePractice /></ProtectedRoute>} />
+                        <Route path="interventions" element={<ProtectedRoute roles={['teacher']}><Interventions /></ProtectedRoute>} />
+                        <Route path="resources" element={<ProtectedRoute roles={['teacher', 'student']}><Resources /></ProtectedRoute>} />
+                        <Route path="quiz/join" element={<ProtectedRoute roles={['student']}><StudentJoin /></ProtectedRoute>} />
+                        <Route path="quiz/host" element={<ProtectedRoute roles={['teacher']}><QuizLobby /></ProtectedRoute>} />
+                        <Route path="quiz/session/:id" element={<ProtectedRoute roles={['teacher', 'student']}><ActiveQuizSession /></ProtectedRoute>} />
+                        <Route path="assignments/create" element={<ProtectedRoute roles={['teacher']}><CreateAssignment /></ProtectedRoute>} />
+                        <Route path="assignments/review" element={<ProtectedRoute roles={['teacher']}><HomeworkReview /></ProtectedRoute>} />
+                        <Route path="assignments/grade/:submissionId" element={<ProtectedRoute roles={['teacher']}><GradingView /></ProtectedRoute>} />
+                        <Route path="attendance" element={<ProtectedRoute roles={['teacher', 'admin']}><TeacherAttendance /></ProtectedRoute>} />
+                        <Route path="my-attendance" element={<ProtectedRoute roles={['student']}><StudentAttendance /></ProtectedRoute>} />
+                        <Route path="polls" element={<ProtectedRoute roles={['teacher']}><TeacherPoll /></ProtectedRoute>} />
                         <Route path="syllabus" element={<SyllabusTracker />} />
                         <Route path="profile" element={<ProfileSettings />} />
-                        <Route path="student/assignments" element={<StudentAssignments />} />
-                        <Route path="student/assignments/:id/solve" element={<SolveAssignment />} />
-                        <Route path="student/interventions" element={<StudentInterventions />} />
-                        <Route path="users" element={<UserManagement />} />
+                        <Route path="student/assignments" element={<ProtectedRoute roles={['student']}><StudentAssignments /></ProtectedRoute>} />
+                        <Route path="student/assignments/:id/solve" element={<ProtectedRoute roles={['student']}><SolveAssignment /></ProtectedRoute>} />
+                        <Route path="student/interventions" element={<ProtectedRoute roles={['student']}><StudentInterventions /></ProtectedRoute>} />
+                        <Route path="users" element={<ProtectedRoute roles={['admin']}><UserManagement /></ProtectedRoute>} />
                         <Route path="galaxy" element={<NeuralGalaxy />} />
                     </Route>
 
