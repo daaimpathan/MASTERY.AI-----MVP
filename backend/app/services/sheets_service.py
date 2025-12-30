@@ -17,13 +17,23 @@ class GoogleSheetsService:
         
     def _authenticate(self):
         """Authenticates with Google Sheets API using service account credentials."""
-        if not os.path.exists(self.credentials_path):
-            logger.warning(f"Google Sheets credentials not found at {self.credentials_path}")
-            return False
-            
+        # Check environment variable first (preferred for Render)
+        env_creds = os.environ.get('GOOGLE_SHEETS_CREDENTIALS')
+        
         try:
-            self.creds = Credentials.from_service_account_file(
-                self.credentials_path, scopes=self.SCOPES)
+            if env_creds:
+                import json
+                creds_dict = json.loads(env_creds)
+                self.creds = Credentials.from_service_account_info(creds_dict, scopes=self.SCOPES)
+                logger.info("Authenticated with Google Sheets using environment variable.")
+            elif os.path.exists(self.credentials_path):
+                self.creds = Credentials.from_service_account_file(
+                    self.credentials_path, scopes=self.SCOPES)
+                logger.info(f"Authenticated with Google Sheets using file: {self.credentials_path}")
+            else:
+                logger.warning(f"Google Sheets credentials not found in ENV or at {self.credentials_path}")
+                return False
+                
             self.service = build('sheets', 'v4', credentials=self.creds)
             return True
         except Exception as e:
