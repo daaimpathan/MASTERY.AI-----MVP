@@ -2,13 +2,13 @@ import { Shield, Check, ExternalLink } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface VerificationBadgeProps {
-    thoughtProofId: string;
+    timestamp: Date;
     verifiedAt: Date;
     replayHash: string;
     onClick?: () => void;
 }
 
-const VerificationBadge = ({ thoughtProofId, verifiedAt, replayHash, onClick }: VerificationBadgeProps) => {
+export const VerificationBadge = ({ verifiedAt, replayHash, onClick }: VerificationBadgeProps) => {
     return (
         <div
             onClick={onClick}

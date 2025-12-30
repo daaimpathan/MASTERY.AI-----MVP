@@ -2,7 +2,6 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text, Float, Stars, Sparkles } from '@react-three/drei';
 import { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { useThemeStore } from '../../store/themeStore';
 
 interface NodeProps {
     position: [number, number, number];
@@ -16,7 +15,7 @@ const GlowingNode = ({ position, color, label, size = 1, onClick }: NodeProps) =
     const meshRef = useRef<THREE.Mesh>(null);
     const [hovered, setHover] = useState(false);
 
-    useFrame((state) => {
+    useFrame(() => {
         if (meshRef.current) {
             meshRef.current.rotation.x += 0.01;
             meshRef.current.rotation.y += 0.01;
@@ -79,7 +78,7 @@ const ConnectionLine = ({ start, end, color }: { start: [number, number, number]
 };
 
 const KnowledgeConstellation = () => {
-    const { theme } = useThemeStore();
+
 
     const subjects = [
         { id: 'math', position: [-4, 2, 0] as [number, number, number], color: '#3b82f6', label: 'Mathematics' },

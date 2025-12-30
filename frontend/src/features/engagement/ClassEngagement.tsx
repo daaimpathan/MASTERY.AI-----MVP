@@ -55,7 +55,7 @@ const mockEngagementDataClassB: EngagementIndexData[] = [
 ];
 
 const ClassEngagement = () => {
-    const [selectedClassId, setSelectedClassId] = useState('123e4567-e89b-12d3-a456-426614174000');
+    const [selectedClassId] = useState('123e4567-e89b-12d3-a456-426614174000');
     const [interventions, setInterventions] = useState<Record<string, boolean>>({});
 
     const handleIntervention = (student: EngagementIndexData) => {
@@ -92,7 +92,7 @@ const ClassEngagement = () => {
         ? 'Class 10-A Mathematics'
         : 'Class 10-B Science';
 
-    const [videoFile, setVideoFile] = useState<File | null>(null);
+    // const [videoFile, setVideoFile] = useState<File | null>(null);
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [liveData, setLiveData] = useState<any[]>([]);
@@ -102,7 +102,7 @@ const ClassEngagement = () => {
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            setVideoFile(file);
+            // setVideoFile(file);
             setVideoUrl(URL.createObjectURL(file));
         }
     };

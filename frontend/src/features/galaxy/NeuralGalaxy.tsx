@@ -1,4 +1,4 @@
-import { useRef, useMemo, useState, useEffect } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, Text } from '@react-three/drei';
 import * as THREE from 'three';
@@ -91,7 +91,7 @@ function ConceptStar({ concept }: { concept: Concept }) {
 // Connection lines between related concepts
 function ConstellationLines({ concepts }: { concepts: Concept[] }) {
     const lines = useMemo(() => {
-        const result: JSX.Element[] = [];
+        const result: React.ReactNode[] = [];
 
         concepts.forEach((concept) => {
             concept.connections?.forEach((connectedId) => {
@@ -104,6 +104,7 @@ function ConstellationLines({ concepts }: { concepts: Concept[] }) {
                     const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
                     result.push(
+                        // @ts-ignore
                         <line key={`${concept.id}-${connectedId}`} geometry={geometry}>
                             <lineBasicMaterial
                                 color="#6366f1"
@@ -151,9 +152,7 @@ function LearningParticles() {
             <bufferGeometry>
                 <bufferAttribute
                     attach="attributes-position"
-                    count={particles.length / 3}
-                    array={particles}
-                    itemSize={3}
+                    args={[particles, 3]}
                 />
             </bufferGeometry>
             <pointsMaterial

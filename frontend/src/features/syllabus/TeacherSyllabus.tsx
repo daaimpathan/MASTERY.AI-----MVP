@@ -9,7 +9,7 @@ import {
     updateTopic,
     deleteTopic
 } from '../../services/syllabusService';
-import { useAuthStore } from '../../store/authStore';
+
 
 const TeacherSyllabus = () => {
     // const { user } = useAuthStore();

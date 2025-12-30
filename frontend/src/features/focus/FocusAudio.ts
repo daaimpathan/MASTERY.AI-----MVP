@@ -1,6 +1,5 @@
 export class FocusAudioEngine {
     private ctx: AudioContext | null = null;
-    private voidOscillator: OscillatorNode | null = null;
     private voidGain: GainNode | null = null;
     private noiseNode: AudioBufferSourceNode | null = null;
 

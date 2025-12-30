@@ -61,16 +61,20 @@ const ProjectDetails = () => {
         title: 'Sustainable Urban Planning',
         subject: 'Social Studies & Engineering',
         description: 'Design a carbon-neutral city layout for 50,000 residents, considering renewable energy, waste management, and green transit systems. Use multidisciplinary concepts to evaluate trade-offs between cost and impact.',
-        deadline: '2024-05-15',
-        minGroups: 2,
-        maxGroups: 4,
-        status: 'Active',
-        rubric: [
-            { criterion: 'Technical Viability', weight: 30, description: 'Scientific accuracy of energy and waste models.' },
-            { criterion: 'Interdisciplinary Insight', weight: 25, description: 'Synthesis of economic and social factors.' },
-            { criterion: 'Creative Delivery', weight: 25, description: 'Novelty of solutions and presentation quality.' },
-            { criterion: 'Team Collaboration', weight: 20, description: 'Balanced contribution and evidence of group work.' },
-        ]
+        end_date: '2024-05-15',
+        is_group_project: true,
+        max_group_size: 4,
+        rubric: {
+            id: 'mock-rubric-1',
+            name: 'Urban Planning Rubric',
+            description: 'Standard rubric for city planning projects',
+            criteria: [
+                { criterion_name: 'Technical Viability', weight: 0.3, max_score: 10, description: 'Scientific accuracy of energy and waste models.' },
+                { criterion_name: 'Interdisciplinary Insight', weight: 0.25, max_score: 10, description: 'Synthesis of economic and social factors.' },
+                { criterion_name: 'Creative Delivery', weight: 0.25, max_score: 10, description: 'Novelty of solutions and presentation quality.' },
+                { criterion_name: 'Team Collaboration', weight: 0.2, max_score: 10, description: 'Balanced contribution and evidence of group work.' },
+            ]
+        }
     };
 
     const displayProject = project || mockProject;

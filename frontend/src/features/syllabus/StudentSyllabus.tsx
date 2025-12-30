@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardDescription } from '../../components/ui/Card';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 const StudentSyllabus = () => {
     // Mock data based on what teacher would have entered
@@ -30,7 +30,7 @@ const StudentSyllabus = () => {
                                     paddingAngle={5}
                                     dataKey="value"
                                 >
-                                    {data.map((entry, index) => (
+                                    {data.map((_, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
@@ -63,8 +63,8 @@ const StudentSyllabus = () => {
                             <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/30">
                                 <span className="text-sm font-medium text-slate-700 dark:text-slate-200">{topic.title}</span>
                                 <span className={`text-xs font-bold px-2 py-1 rounded-full ${topic.status === 'COMPLETED'
-                                        ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
-                                        : 'bg-slate-100 text-slate-600 dark:bg-slate-700/50 dark:text-slate-400'
+                                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                                    : 'bg-slate-100 text-slate-600 dark:bg-slate-700/50 dark:text-slate-400'
                                     }`}>
                                     {topic.status}
                                 </span>

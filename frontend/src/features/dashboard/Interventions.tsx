@@ -6,7 +6,6 @@ import {
     ArrowLeft,
     MessageSquare,
     UserPlus,
-    MoreHorizontal,
     Trash2,
     X,
     Check,

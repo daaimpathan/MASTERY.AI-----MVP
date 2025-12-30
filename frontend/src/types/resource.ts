@@ -2,18 +2,22 @@
  * Resource and ResourceRequest TypeScript interfaces
  */
 
-export enum ResourceType {
-    PDF = 'pdf',
-    VIDEO = 'video',
-    LINK = 'link',
-    NOTES = 'notes',
-}
+export const ResourceType = {
+    PDF: 'pdf',
+    VIDEO: 'video',
+    LINK: 'link',
+    NOTES: 'notes',
+} as const;
 
-export enum RequestStatus {
-    PENDING = 'pending',
-    APPROVED = 'approved',
-    REJECTED = 'rejected',
-}
+export type ResourceType = typeof ResourceType[keyof typeof ResourceType];
+
+export const RequestStatus = {
+    PENDING: 'pending',
+    APPROVED: 'approved',
+    REJECTED: 'rejected',
+} as const;
+
+export type RequestStatus = typeof RequestStatus[keyof typeof RequestStatus];
 
 export interface TeacherInfo {
     id: string;

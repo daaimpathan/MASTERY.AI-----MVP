@@ -112,7 +112,7 @@ const Moon = () => {
 
 const SpaceDust = () => {
     const ref = useRef<any>(null);
-    useFrame((state) => {
+    useFrame(() => {
         if (ref.current) {
             // Simulate speed by moving stars down
             // ref.current.position.y -= 0.05; 
@@ -153,7 +153,7 @@ const Scene = () => {
 
             <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={2} />
 
-            <EffectComposer disableNormalPass>
+            <EffectComposer enableNormalPass={false}>
                 <Bloom luminanceThreshold={0.8} intensity={1} radius={0.5} />
                 <Vignette eskil={false} offset={0.1} darkness={0.4} />
             </EffectComposer>
@@ -163,7 +163,7 @@ const Scene = () => {
 
 // --- EXPORT ---
 
-const ExpertHero3D = () => {
+export const ExpertHero3D = () => {
     return (
         <div className="w-full h-[700px] relative">
             <Canvas

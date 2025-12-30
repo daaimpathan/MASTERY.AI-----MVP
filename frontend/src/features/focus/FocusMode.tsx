@@ -9,7 +9,7 @@ interface FocusModeProps {
 }
 
 const FocusMode = ({ children }: FocusModeProps) => {
-    const { isDeepDive, endDeepDive, focusTopic } = useFocus();
+    const { isDeepDive, endDeepDive } = useFocus();
 
     const [holdProgress, setHoldProgress] = useState(0);
     const [isThinking, setIsThinking] = useState(false);
