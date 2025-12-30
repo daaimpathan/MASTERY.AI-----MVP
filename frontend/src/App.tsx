@@ -86,8 +86,8 @@ function App() {
                                     user?.role === 'admin' ? <AdminDashboard /> : <Navigate to="/login" />
                         } />
 
-                        <Route path="projects" element={<ProtectedRoute roles={['teacher']}><ProjectList /></ProtectedRoute>} />
-                        <Route path="projects/:id" element={<ProtectedRoute roles={['teacher']}><ProjectDetails /></ProtectedRoute>} />
+                        <Route path="projects" element={<ProtectedRoute roles={['teacher', 'student']}><ProjectList /></ProtectedRoute>} />
+                        <Route path="projects/:id" element={<ProtectedRoute roles={['teacher', 'student']}><ProjectDetails /></ProtectedRoute>} />
                         <Route path="projects/:id/submissions" element={<ProtectedRoute roles={['teacher']}><ProjectSubmissions /></ProtectedRoute>} />
                         <Route path="projects/evaluate/:submissionId" element={<ProtectedRoute roles={['teacher']}><ProjectEvaluation /></ProtectedRoute>} />
                         <Route path="projects/create" element={<ProtectedRoute roles={['teacher']}><CreateProject /></ProtectedRoute>} />

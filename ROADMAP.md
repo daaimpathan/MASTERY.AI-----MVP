@@ -31,7 +31,7 @@ This roadmap outlines the planned evolution of Mastery.AI, moving from a feature
 ## Phase 4: Scaling & Ecosystem (Q4 2024)
 *Focus: Global reach, mobile presence, and third-party integrations.*
 
-- [ ] **Mobile Applications**: Native iOS and Android apps for learning on the go.
+- [x] **Ubiquitous Learning Ecosystem (PWA)**: Cross-platform mobile experience with offline-first capabilities.
 - [ ] **LMS Integrations**: One-click sync with Canvas, Google Classroom, and Moodle.
 - [ ] **Developer API**: Open access for developers to build 3D "Constellation" modules.
 - [ ] **Global Dashboard**: Multi-school analytics for district and government administrators.

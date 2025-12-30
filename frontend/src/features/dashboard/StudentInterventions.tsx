@@ -16,9 +16,18 @@ import api from '../../services/api';
 import { HfInference } from '@huggingface/inference';
 
 const StudentInterventions = () => {
-    const navigate = useNavigate();
     const [message, setMessage] = useState('');
     const [chatHistory, setChatHistory] = useState<Array<{ role: string, text: string }>>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [chatHistory, isLoading]);
 
     // Emotion detection state
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -182,6 +191,7 @@ const StudentInterventions = () => {
         setChatHistory(currentHistory);
         const userMessage = message;
         setMessage('');
+        setIsLoading(true);
 
         try {
             // Include emotion context in the message
@@ -204,6 +214,8 @@ const StudentInterventions = () => {
                 role: 'bot',
                 text: "I'm having trouble thinking right now. Please try again in a moment."
             }]);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -291,6 +303,18 @@ const StudentInterventions = () => {
                                 </div>
                             </div>
                         ))}
+                        {isLoading && (
+                            <div className="flex justify-start">
+                                <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-tl-sm border border-slate-200 dark:border-white/5 shadow-sm">
+                                    <div className="flex gap-1">
+                                        <div className="w-2 h-2 bg-violet-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                                        <div className="w-2 h-2 bg-violet-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                                        <div className="w-2 h-2 bg-violet-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        <div ref={messagesEndRef} />
                     </div>
 
                     <div className="p-4 border-t border-slate-100 dark:border-white/5 bg-white dark:bg-white/[0.02]">

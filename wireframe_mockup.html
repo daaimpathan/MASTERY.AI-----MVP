@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASTERY.AI Wireframe</title>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --sidebar-color: #ffffff;
+            --border-color: #e0e0e0;
+            --text-main: #333333;
+            --text-muted: #888888;
+            --card-bg: #ffffff;
+            --wireframe-stroke: #cccccc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* Sidebar */
+        aside {
+            width: 240px;
+            background-color: var(--sidebar-color);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -1px;
+            border-bottom: 2px solid var(--text-main);
+            padding-bottom: 8px;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-item {
+            height: 40px;
+            border: 1px dashed var(--wireframe-stroke);
+            border-radius: 8px;
+            display: flex;
+            items-center;
+            padding: 0 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+        }
+
+        .header-title {
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .user-pill {
+            padding: 8px 16px;
+            border: 1px solid var(--wireframe-stroke);
+            border-radius: 100px;
+            font-size: 13px;
+        }
+
+        /* Hero banner */
+        .hero {
+            height: 140px;
+            background-color: #eee;
+            border: 2px solid var(--wireframe-stroke);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero-info h1 { font-size: 28px; margin-bottom: 4px; }
+        .hero-info p { color: var(--text-muted); font-size: 14px; }
+
+        .xp-box {
+            width: 200px;
+            height: 60px;
+            border: 1px solid var(--wireframe-stroke);
+            border-radius: 12px;
+            background: #fff;
+            padding: 10px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #eee;
+            border-radius: 10px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .progress-fill { width: 83%; height: 100%; background: #999; }
+
+        /* Card Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            border: 1px dashed var(--wireframe-stroke);
+        }
+
+        /* Metric Row */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .metric-card {
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .metric-val { font-size: 24px; font-weight: 800; margin: 4px 0; }
+        .metric-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+
+        /* Graph Section */
+        .graph-area {
+            height: 300px;
+            border: 2px dashed var(--wireframe-stroke);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #fff;
+        }
+        .graph-label {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-weight: 700;
+        }
+        
+        .circle { border: 2px solid #ccc; border-radius: 50%; width: 40px; height: 40px; position: absolute; }
+        .line { background: #ddd; height: 2px; position: absolute; }
+
+    </style>
+</head>
+<body>
+    <aside>
+        <div class="logo">MASTERY.AI</div>
+        <nav>
+            <div class="nav-item"><div style="width:16px;height:16px;border:1px solid #999"></div> Dashboard</div>
+            <div class="nav-item"><div style="width:16px;height:16px;border:1px solid #999"></div> Live Quiz</div>
+            <div class="nav-item"><div style="width:16px;height:16px;border:1px solid #999"></div> My Attendance</div>
+            <div class="nav-item"><div style="width:16px;height:16px;border:1px solid #999"></div> Resources</div>
+            <div class="nav-item"><div style="width:16px;height:16px;border:1px solid #999"></div> Syllabus</div>
+        </nav>
+    </aside>
+
+    <main>
+        <header>
+            <div class="header-title">Dashboard</div>
+            <div class="user-pill">Samuel [Student]</div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-info">
+                <h1>Student Hub</h1>
+                <p>Track your personalized learning path and growing mastery scores.</p>
+            </div>
+            <div class="xp-box">
+                <div style="font-size: 12px; font-weight: 700;">Level 14</div>
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <div style="font-size: 10px; color: #888; margin-top: 4px;">12,450 / 15,000 XP</div>
+            </div>
+        </section>
+
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-icon"></div>
+                <div style="font-weight: 700;">Assignments</div>
+                <div style="font-size: 12px; color: #888;">3 Pending tasks</div>
+            </div>
+            <div class="card">
+                <div class="card-icon"></div>
+                <div style="font-weight: 700;">PBL Projects</div>
+                <div style="font-size: 12px; color: #888;">2 Active Collaborations</div>
+            </div>
+            <div class="card">
+                <div class="card-icon"></div>
+                <div style="font-weight: 700;">My AI Tutor</div>
+                <div style="font-size: 12px; color: #888;">Available 24/7</div>
+            </div>
+        </div>
+
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-label">Mastery</div>
+                <div class="metric-val">74%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Concepts</div>
+                <div class="metric-val">38</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">PBL Contribution</div>
+                <div class="metric-val">High</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Streak</div>
+                <div class="metric-val">12d</div>
+            </div>
+        </div>
+
+        <div class="graph-area">
+            <div class="graph-label">Neural Constellation (Wireframe)</div>
+            <!-- Mock Graph Nodes -->
+            <div class="circle" style="top: 100px; left: 200px;"></div>
+            <div class="circle" style="top: 150px; left: 350px;"></div>
+            <div class="circle" style="top: 80px; left: 500px;"></div>
+            <div class="circle" style="top: 200px; left: 450px;"></div>
+            <div class="line" style="width: 150px; top: 120px; left: 240px; transform: rotate(15deg);"></div>
+            <div class="line" style="width: 150px; top: 110px; left: 390px; transform: rotate(-15deg);"></div>
+            <div class="line" style="width: 100px; top: 170px; left: 390px; transform: rotate(30deg);"></div>
+        </div>
+    </main>
+</body>
+</html>
