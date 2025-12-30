@@ -41,7 +41,19 @@ api.interceptors.response.use(
                     throw new Error('No refresh token available');
                 }
 
-                const response = await axios.post('http://localhost:8000/api/v1/auth/refresh', { refresh_token: refreshToken });
+                // Ensure we don't duplicate /api/v1 if it's already in the base URL and we are appending it, 
+                // but the api instance usually has it. 
+                // Actually, api.defaults.baseURL usually includes /api/v1.
+                // But let's be safe and use relative path which axios will resolve against baseURL ONLY if we use the instance.
+                // But we want a fresh request.
+
+                // Better approach: Use the configured base URL from env or default
+                const envBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+                // Remove trailing slash if present
+                const cleanBaseUrl = envBaseUrl.endsWith('/') ? envBaseUrl.slice(0, -1) : envBaseUrl;
+
+                const response = await axios.post(`${cleanBaseUrl}/auth/refresh`, { refresh_token: refreshToken });
+
                 const { access_token } = response.data;
                 localStorage.setItem('access_token', access_token);
                 originalRequest.headers.Authorization = `Bearer ${access_token}`;
