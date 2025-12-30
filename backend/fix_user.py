@@ -24,7 +24,7 @@ def fix_user():
         print("Checking for student@mastery.ai...")
         user = db.query(User).filter(User.email == "student@mastery.ai").first()
         
-        target_password = "password123"
+        target_password = "MasteryDemo#2025"
         hashed_pw = hash_password(target_password)
         
         if user:

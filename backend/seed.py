@@ -40,7 +40,7 @@ def seed_data():
         db.flush()
         
         # 2. Create Users
-        password_hash = hash_password("password123")
+        password_hash = hash_password("MasteryDemo#2025")
         
         admin = User(
             email="admin@mastery.ai",
@@ -186,9 +186,9 @@ def seed_data():
         
         db.commit()
         print("Seeding complete!")
-        print(f"Teacher: teacher@mastery.ai / password123")
-        print(f"Student: student@mastery.ai / password123")
-        print(f"Admin: admin@mastery.ai / password123")
+        print(f"Teacher: teacher@mastery.ai / MasteryDemo#2025")
+        print(f"Student: student@mastery.ai / MasteryDemo#2025")
+        print(f"Admin: admin@mastery.ai / MasteryDemo#2025")
 
     except Exception as e:
         db.rollback()
