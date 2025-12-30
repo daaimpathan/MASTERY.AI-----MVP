@@ -125,7 +125,7 @@ const ClassEngagement = () => {
 
                         try {
                             const res = await api.post('/engagement/analyze-cctv', formData, {
-                                headers: { 'Content-Type': 'multipart/form-data' }
+                                headers: { 'Content-Type': undefined }
                             });
 
                             setLiveData(prev => [...prev.slice(-19), {

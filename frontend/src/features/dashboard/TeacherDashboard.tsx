@@ -9,7 +9,7 @@ import {
     Brain,
     Calendar,
     BarChart2,
-    Library
+    BarChart2
 } from 'lucide-react';
 import {
     BarChart,
@@ -128,7 +128,6 @@ const TeacherDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 animate-slide-up" style={{ animationDelay: '100ms' }}>
                 {[
                     { title: 'Create Assignment', icon: BookOpen, color: 'bg-blue-500', path: '/dashboard/assignments/create' },
-                    { title: 'Resource Requests', icon: Library, color: 'bg-emerald-500', path: '/dashboard/resources' },
                     { title: 'New Project', icon: Brain, color: 'bg-purple-500', path: '/dashboard/projects/create' },
                     { title: 'Class Analytics', icon: BarChart2, color: 'bg-blue-600', path: '/dashboard/analytics' },
                     { title: 'Schedule Poll', icon: Calendar, color: 'bg-amber-500', path: '/dashboard/polls' }
