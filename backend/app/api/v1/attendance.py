@@ -23,7 +23,11 @@ async def sync_attendance(request: SyncRequest, current_user: User = Depends(get
     """
     Sync attendance records to Google Sheets.
     """
-    if current_user.role != "teacher" and current_user.role != "admin":
+    # Allow both string and Enum comparison
+    is_teacher = str(current_user.role).lower() == "teacher" or str(current_user.role) == "UserRole.TEACHER"
+    is_admin = str(current_user.role).lower() == "admin" or str(current_user.role) == "UserRole.ADMIN"
+    
+    if not is_teacher and not is_admin:
         raise HTTPException(status_code=403, detail="Only teachers can sync attendance")
 
     try:
