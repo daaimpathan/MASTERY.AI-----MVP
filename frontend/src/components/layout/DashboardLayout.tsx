@@ -9,6 +9,7 @@ import {
     CheckSquare,
     Gamepad2,
     LayoutDashboard,
+    Library,
     LogOut,
     MessageCircle,
 
@@ -59,6 +60,7 @@ const DashboardLayout = () => {
         { name: 'Mastery', icon: Target, path: '/dashboard/mastery', roles: ['teacher'] },
         { name: 'Engagement', icon: Activity, path: '/dashboard/engagement', roles: ['teacher'] },
         { name: 'Interventions', icon: Activity, path: '/dashboard/interventions', roles: ['teacher'] },
+        { name: 'Resources', icon: Library, path: '/dashboard/resources', roles: ['teacher', 'student'] },
         { name: 'Syllabus', icon: BookOpen, path: '/dashboard/syllabus', roles: ['teacher', 'student'] },
         { name: 'Users', icon: Users, path: '/dashboard/users', roles: ['admin'] },
     ];

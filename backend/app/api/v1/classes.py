@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 import uuid
 from app.database import get_db
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, get_current_teacher, get_current_admin
 from app.models.user import User, UserRole
 from app.models.class_model import Class, Enrollment
 from app.schemas.class_schema import ClassResponse
@@ -15,35 +15,26 @@ def list_classes(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """List all classes for the current teacher."""
+    """List all classes for the current teacher or student."""
     classes = []
     
-    print(f"Listing classes for user: {current_user.id}, Role: {current_user.role}", flush=True)
+    # Use centralized logic for role verification
+    from app.dependencies import require_role
     
-    # Check role - handle both Enum and string comparison just in case
-    is_teacher = current_user.role == UserRole.TEACHER or str(current_user.role) == "teacher"
-    is_admin = current_user.role == UserRole.ADMIN or str(current_user.role) == "admin"
+    # Handle roles manually here because we want different behavior based on role
+    # but use the same string conversion logic as require_role
+    user_role = str(current_user.role.value) if hasattr(current_user.role, 'value') else str(current_user.role)
+    user_role = user_role.lower()
     
-    is_student = current_user.role == UserRole.STUDENT or str(current_user.role) == "student"
-
-    if is_teacher:
+    if user_role == "teacher":
         classes = db.query(Class).filter(Class.teacher_id == current_user.id).all()
-        print(f"Found {len(classes)} classes in DB for teacher", flush=True)
-    elif is_admin:
+    elif user_role == "admin":
         classes = db.query(Class).all()
-        print(f"Found {len(classes)} classes in DB for admin", flush=True)
-    elif is_student:
+    elif user_role == "student":
         # Fetch classes student is enrolled in
         enrollments = db.query(Enrollment).filter(Enrollment.student_id == current_user.id).all()
         class_ids = [e.class_id for e in enrollments]
         classes = db.query(Class).filter(Class.id.in_(class_ids)).all()
-    else:
-        print(f"User is neither teacher nor admin. Role: {current_user.role}", flush=True)
-        pass
-    
-    if not classes:
-        print("No classes found. Returning empty list.", flush=True)
-        pass
         
     return classes
 
@@ -59,21 +50,8 @@ class ClassCreate(BaseModel):
 def create_class(
     class_data: ClassCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_teacher)
 ):
-    """Create a new class."""
-    
-    # Allow creating class if teacher or admin
-    # Allow creating class if teacher or admin
-    is_teacher = str(current_user.role).lower() == "teacher" or str(current_user.role) == "UserRole.TEACHER"
-    is_admin = str(current_user.role).lower() == "admin" or str(current_user.role) == "UserRole.ADMIN"
-    
-    if not is_teacher and not is_admin:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only teachers and admins can create classes"
-        )
-        
     print(f"Creating class: {class_data.name} by user {current_user.id}")
     
     new_class = Class(
@@ -100,16 +78,8 @@ def enroll_student(
     class_id: str,
     enrollment_data: EnrollmentRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_teacher)
 ):
-    """Enroll a student in a class."""
-    
-    # Check permissions
-    is_teacher = str(current_user.role).lower() == "teacher" or str(current_user.role) == "UserRole.TEACHER"
-    is_admin = str(current_user.role).lower() == "admin" or str(current_user.role) == "UserRole.ADMIN"
-
-    if not is_teacher and not is_admin:
-         raise HTTPException(status_code=403, detail="Not authorized")
 
     # Find student
     student = db.query(User).filter(User.email == enrollment_data.student_email).first()
