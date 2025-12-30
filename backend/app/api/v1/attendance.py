@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List, Optional
 from app.services.sheets_service import sheets_service
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, get_current_teacher
 from app.models.user import User
 
 router = APIRouter(tags=["Attendance"])
@@ -19,17 +19,10 @@ class SyncRequest(BaseModel):
     records: List[AttendanceRecord]
 
 @router.post("/attendance/sync")
-async def sync_attendance(request: SyncRequest, current_user: User = Depends(get_current_user)):
+async def sync_attendance(request: SyncRequest, current_user: User = Depends(get_current_teacher)):
     """
     Sync attendance records to Google Sheets.
     """
-    # Allow both string and Enum comparison
-    is_teacher = str(current_user.role).lower() == "teacher" or str(current_user.role) == "UserRole.TEACHER"
-    is_admin = str(current_user.role).lower() == "admin" or str(current_user.role) == "UserRole.ADMIN"
-    
-    if not is_teacher and not is_admin:
-        raise HTTPException(status_code=403, detail="Only teachers can sync attendance")
-
     try:
         sheets_service.sync_attendance(request.sheet_id, request.date, [r.dict() for r in request.records])
         return {"message": "Attendance synced successfully"}
