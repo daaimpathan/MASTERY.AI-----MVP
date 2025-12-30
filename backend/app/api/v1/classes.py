@@ -45,3 +45,84 @@ def list_classes(
         pass
         
     return classes
+
+from pydantic import BaseModel
+
+class ClassCreate(BaseModel):
+    name: str
+    subject: str = "General"
+    academic_year: str = "2025-2026"
+    institution_id: str = None  # Optional
+
+@router.post("/", response_model=ClassResponse, status_code=status.HTTP_201_CREATED)
+def create_class(
+    class_data: ClassCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Create a new class."""
+    
+    # Allow creating class if teacher or admin
+    if current_user.role not in [UserRole.TEACHER, UserRole.ADMIN]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only teachers and admins can create classes"
+        )
+        
+    print(f"Creating class: {class_data.name} by user {current_user.id}")
+    
+    new_class = Class(
+        id=uuid.uuid4(),
+        name=class_data.name,
+        subject=class_data.subject,
+        teacher_id=current_user.id,
+        institution_id=current_user.institution_id, # Default to user's institution
+        academic_year=class_data.academic_year
+    )
+    
+    db.add(new_class)
+    db.commit()
+    db.refresh(new_class)
+    
+    return new_class
+
+class EnrollmentRequest(BaseModel):
+    class_id: str
+    student_email: str
+
+@router.post("/{class_id}/enroll", status_code=status.HTTP_201_CREATED)
+def enroll_student(
+    class_id: str,
+    enrollment_data: EnrollmentRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Enroll a student in a class."""
+    
+    # Check permissions
+    if current_user.role not in [UserRole.TEACHER, UserRole.ADMIN]:
+         raise HTTPException(status_code=403, detail="Not authorized")
+
+    # Find student
+    student = db.query(User).filter(User.email == enrollment_data.student_email).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+        
+    # Check if already enrolled
+    existing = db.query(Enrollment).filter(
+        Enrollment.student_id == student.id,
+        Enrollment.class_id == uuid.UUID(class_id)
+    ).first()
+    
+    if existing:
+        return {"message": "Already enrolled"}
+        
+    # Create enrollment
+    enrollment = Enrollment(
+        student_id=student.id,
+        class_id=uuid.UUID(class_id)
+    )
+    db.add(enrollment)
+    db.commit()
+    
+    return {"message": "Enrolled successfully", "student": student.email}
