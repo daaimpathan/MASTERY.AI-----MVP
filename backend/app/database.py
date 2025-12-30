@@ -28,8 +28,14 @@ if not settings.DATABASE_URL.startswith("sqlite"):
     engine_kwargs["pool_size"] = 10
     engine_kwargs["max_overflow"] = 20
 
+
+# Fix Render/Heroku postgres:// schema for SQLAlchemy 1.4+
+database_url = settings.DATABASE_URL
+if database_url and database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
 engine = create_engine(
-    settings.DATABASE_URL,
+    database_url,
     **engine_kwargs
 )
 
