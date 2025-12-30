@@ -57,6 +57,22 @@ app.add_middleware(
     max_age=3600,  # Cache preflight requests for 1 hour
 )
 
+# --- DEBUGGING: Global Exception Handler ---
+from fastapi import Request
+from fastapi.responses import JSONResponse
+import traceback
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    error_msg = f"{type(exc).__name__}: {str(exc)}"
+    print(f"GLOBAL ERROR: {error_msg}")
+    traceback.print_exc()
+    return JSONResponse(
+        status_code=500,
+        content={"detail": error_msg, "trace": traceback.format_exc()},
+    )
+# -------------------------------------------
+
 # Include routers
 app.include_router(auth.router, prefix="/api/v1")
 app.include_router(analytics.router, prefix="/api/v1")
