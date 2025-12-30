@@ -51,11 +51,8 @@ class GoogleSheetsService:
         """
         if not self.service:
             if not self._authenticate():
-                # Mock fallback for demo/production without credentials
-                logger.warning("Mocking Google Sheets sync due to missing credentials.")
-                # Simulate a successful sync
-                logger.info(f"MOCK SYNC: Would have appended {len(records)} rows to sheet {spreadsheet_id}")
-                return True
+                # Error out instead of silent mock so user knows why it's blank
+                raise Exception("Google Sheets credentials not found. Please follow Section 5 in deployment_fix.md to add GOOGLE_SHEETS_CREDENTIALS to Render.")
 
         try:
             sheet = self.service.spreadsheets()
