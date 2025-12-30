@@ -8,7 +8,6 @@ import {
     BookOpen,
     Brain,
     Calendar,
-    BarChart2,
     BarChart2
 } from 'lucide-react';
 import {
