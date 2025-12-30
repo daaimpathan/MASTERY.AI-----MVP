@@ -10,7 +10,18 @@
  * Falls back to localhost for development
  */
 export const getApiBaseUrl = (): string => {
-    return import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    // Standardize code to use VITE_API_BASE_URL
+    let url = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+
+    // Ensure it ends with /api/v1
+    // This allows the user to just put the Render URL in the env var without worrying about the path
+    if (!url.endsWith('/api/v1')) {
+        // Remove trailing slash if present before appending
+        url = url.endsWith('/') ? url.slice(0, -1) : url;
+        url = `${url}/api/v1`;
+    }
+
+    return url;
 };
 
 /**
