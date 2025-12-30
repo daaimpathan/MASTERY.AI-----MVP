@@ -64,7 +64,11 @@ def create_class(
     """Create a new class."""
     
     # Allow creating class if teacher or admin
-    if current_user.role not in [UserRole.TEACHER, UserRole.ADMIN]:
+    # Allow creating class if teacher or admin
+    is_teacher = str(current_user.role).lower() == "teacher" or str(current_user.role) == "UserRole.TEACHER"
+    is_admin = str(current_user.role).lower() == "admin" or str(current_user.role) == "UserRole.ADMIN"
+    
+    if not is_teacher and not is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only teachers and admins can create classes"
@@ -101,7 +105,10 @@ def enroll_student(
     """Enroll a student in a class."""
     
     # Check permissions
-    if current_user.role not in [UserRole.TEACHER, UserRole.ADMIN]:
+    is_teacher = str(current_user.role).lower() == "teacher" or str(current_user.role) == "UserRole.TEACHER"
+    is_admin = str(current_user.role).lower() == "admin" or str(current_user.role) == "UserRole.ADMIN"
+
+    if not is_teacher and not is_admin:
          raise HTTPException(status_code=403, detail="Not authorized")
 
     # Find student
