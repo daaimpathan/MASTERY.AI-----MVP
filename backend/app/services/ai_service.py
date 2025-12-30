@@ -16,7 +16,7 @@ if settings.GEMINI_API_KEY:
 
 class AIService:
     def __init__(self):
-        self.model = genai.GenerativeModel('gemini-2.5-flash')
+        self.model = genai.GenerativeModel('gemini-1.5-flash')
 
     async def generate_quiz_questions(self, topic: str, count: int = 5, difficulty: str = "Medium") -> List[Dict[str, Any]]:
         """

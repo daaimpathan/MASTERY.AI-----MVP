@@ -1,7 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { FocusAudioEngine } from './FocusAudio';
+import api from '../../services/api';
 
 interface FocusContextType {
+    // ... existing interface ...
+    // (rest of the file with fixes)
     isDeepDive: boolean;
     startDeepDive: (topic: string) => void;
     endDeepDive: () => void;
@@ -86,19 +89,8 @@ export const FocusProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const startDeepDive = useCallback(async (topic: string) => {
         try {
             // Call API to start session
-            const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8000/api/v1/focus/start', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({})
-            });
-
-            if (!response.ok) throw new Error('Failed to start session');
-
-            const data = await response.json();
+            const response = await api.post('/focus/start', {});
+            const data = response.data;
             setSessionId(data.session_id);
 
             setFocusTopic(topic);
@@ -110,13 +102,10 @@ export const FocusProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             setQuestions([]);
 
             // AI Questions
-            fetch('http://localhost:8000/api/v1/focus/questions', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ topic })
-            })
-                .then(res => res.json())
-                .then(data => { if (data.questions) setQuestions(data.questions); })
+            api.post('/focus/questions', { topic })
+                .then(res => {
+                    if (res.data.questions) setQuestions(res.data.questions);
+                })
                 .catch(e => console.error("Question fetch failed", e));
 
             // Audio
@@ -141,17 +130,9 @@ export const FocusProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const endDeepDive = useCallback(async () => {
         try {
             if (sessionId) {
-                const token = localStorage.getItem('token');
-                await fetch('http://localhost:8000/api/v1/focus/end', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        session_id: sessionId,
-                        distractions: distractions
-                    })
+                await api.post('/focus/end', {
+                    session_id: sessionId,
+                    distractions: distractions
                 });
             }
         } catch (error) {
